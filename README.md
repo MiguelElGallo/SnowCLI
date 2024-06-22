@@ -1,9 +1,10 @@
 # Snowflake Connection via CLI with GitHub Actions
 
+[![deploy using snowflake-cli](https://github.com/MiguelElGallo/SnowCLI/actions/workflows/snowflake_workflow.yml/badge.svg)](https://github.com/MiguelElGallo/SnowCLI/actions/workflows/snowflake_workflow.yml)
+
 ## Purpose
 
 This repository demonstrates how to connect to Snowflake using the [new CLI](https://docs.snowflake.com/en/developer-guide/snowflake-cli-v2/index) with key pair authentication from GitHub Actions.
-
 
 ## Steps to Run
 
