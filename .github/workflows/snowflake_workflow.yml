@@ -35,9 +35,4 @@ jobs:
           run: |
             snow --version
             snow connection list
-            snow connection test --connection cicd --private-key-path private_key.pem --account $(SNOW_SQL_ACCOUNT) --user $(SNOW_SQL_USER) --authenticator SNOWFLAKE_JWT
-
-
-        
-
-        
+            snow connection test --connection cicd --private-key-path private_key.pem --account $SNOW_SQL_ACCOUNT --user $SNOW_SQL_USER --authenticator SNOWFLAKE_JWT
