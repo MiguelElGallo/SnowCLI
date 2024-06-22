@@ -1,0 +1,34 @@
+name: deploy using snowflake-cli
+
+# Trigger on demand
+on:
+  workflow_dispatch:
+
+jobs:
+  version:
+     name: "Check Snowflake CLI version"
+     runs-on: ubuntu-latest
+     env:
+        SNOW_SQL_ACCOUNT: ${{ secrets.SNOW_SQL_ACCOUNT}}
+        SNOW_SQL_USER: ${{ secrets.SNOW_SQL_USER  }}
+        SNOWSQL_PRIVATE_KEY_PASSPHRASE: ${{ secrets.SNOWSQL_PRIVATE_KEY_PASSPHRASE }}
+        SNOWSQL_PRIVATE_KEY: ${{ secrets.SNOW_SQL_PRIVATE_KEY }}
+
+     steps:
+          # Checkout step is necessary if you want to use a config file from your repo
+        - name: Checkout repo
+          uses: actions/checkout@v4
+          
+          # Write SNOWSQL_PRIVATE_KEY to a file
+        - name: Write private key
+          run: echo "$SNOWSQL_PRIVATE_KEY" > private_key.pem
+
+          # Snowflake CLI installation
+        - uses: Snowflake-Labs/snowflake-cli-action@v1
+          with:
+            cli-version: "latest"
+            default-config-file-path: 'config.toml' # root of the repository
+            
+        
+
+        
