@@ -2,5 +2,5 @@ default_connection_name = "cicd"
   
 [connections] 
 [connections.cicd]
-user = ""
-password = ""
+user = "dummy"
+password = "dummy"
