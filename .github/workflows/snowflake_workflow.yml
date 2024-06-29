@@ -42,5 +42,5 @@ jobs:
           shell: bash
           run: |
            ls -l
-           run: echo "$SNOWSQL_PRIVATE_KEY" > private_key.pem
+           echo "$SNOWSQL_PRIVATE_KEY" > private_key.pem
            snow streamlit deploy --connection cicd --private-key-path private_key.pem --account $SNOW_SQL_ACCOUNT --user $SNOW_SQL_USER --authenticator SNOWFLAKE_JWT 
