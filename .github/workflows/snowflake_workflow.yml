@@ -35,12 +35,11 @@ jobs:
           run: |
             snow --version
             snow connection list
-            snow connection test --connection cicd --private-key-path private_key.pem --account $SNOW_SQL_ACCOUNT --user $SNOW_SQL_USER --authenticator SNOWFLAKE_JWT
+            snow connection test --connection cicd --private-key-path private_key.pem --account $SNOW_SQL_ACCOUNT --user $SNOW_SQL_USER --authenticator SNOWFLAKE_JWT --database STREAMLIT_DB --schema PUBLIC
     
         - name: Deploy
           working-directory: snowobjects/streamlit/app1/demo_st_app
           shell: bash
           run: |
            ls -l
-           echo "$SNOWSQL_PRIVATE_KEY" > private_key.pem
-           snow streamlit deploy --connection cicd --private-key-path private_key.pem --account $SNOW_SQL_ACCOUNT --user $SNOW_SQL_USER --authenticator SNOWFLAKE_JWT 
+           snow streamlit deploy --connection cicd --private-key-path private_key.pem --account $SNOW_SQL_ACCOUNT --user $SNOW_SQL_USER --authenticator SNOWFLAKE_JWT -database STREAMLIT_DB --schema PUBLIC
