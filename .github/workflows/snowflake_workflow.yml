@@ -42,4 +42,4 @@ jobs:
           shell: bash
           run: |
            ls -l
-           snow streamlit deploy --connection cicd --private-key-path $GITHUB_WORKSPACE/private_key.pem --account $SNOW_SQL_ACCOUNT --user $SNOW_SQL_USER --authenticator SNOWFLAKE_JWT --database STREAMLIT_DB --schema PUBLIC
+           snow streamlit deploy --connection cicd --private-key-path $GITHUB_WORKSPACE/private_key.pem --account $SNOW_SQL_ACCOUNT --user $SNOW_SQL_USER --authenticator SNOWFLAKE_JWT --database STREAMLIT_DB --schema PUBLIC --silent
