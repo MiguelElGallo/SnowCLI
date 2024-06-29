@@ -40,4 +40,4 @@ jobs:
         - name: Deploy
           shell: bash
           run: |
-           snow streamlit deploy -connection cicd --private-key-path private_key.pem --account $SNOW_SQL_ACCOUNT --user $SNOW_SQL_USER --authenticator SNOWFLAKE_JWT --project snowobjects/streamlit/app1/demo_st_app
+           snow streamlit deploy --connection cicd --private-key-path private_key.pem --account $SNOW_SQL_ACCOUNT --user $SNOW_SQL_USER --authenticator SNOWFLAKE_JWT --project snowobjects/streamlit/app1/demo_st_app
