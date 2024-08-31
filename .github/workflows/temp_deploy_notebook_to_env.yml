@@ -25,25 +25,6 @@ on:
         required: true
         type: string
         description: 'The name of the notebook to deploy'
-      SNOW_SQL_ACCOUNT:
-        required: true
-        type: string
-        description: 'The Snowflake account name'
-      SNOW_SQL_USER:
-        required: true
-        type: string
-        description: 'The Snowflake user name'
-      PRIVATE_KEY_PASSPHRASE:
-        required: true
-        type: string
-        description: 'The Snowflake private key'
-      PRIVATE_KEY:
-        required: true
-        type: string
-        description: 'The Snowflake private key passphrase'
-  
-
-##
 
 
 jobs:
