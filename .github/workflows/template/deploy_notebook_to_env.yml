@@ -1,0 +1,58 @@
+# This is a template a Github Action to deploy a Snowflake Notebook to a specific environment
+# It accetps the following parameters:
+# - SNOWFLAKE_ENV: The environment to deploy to (dev, test, prod)
+# - SNOWFLAKE_NOTEBOOK_PATH: The path to the notebook to deploy
+# - SNOWFLAKE_NOTEBOOK_NAME: The name of the notebook to deploy
+# - SNOWFLAKE_NOTEBOOK_VERSION: The version of the notebook to deploy
+# - SNOWFLAKE_NOTEBOOK_COMMENT: The comment to deploy the notebook with
+# - SNOWFLAKE_NOTEBOOK_TAGS: The tags to deploy the notebook with   
+
+name: Deploy Notebook to Environment
+
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
+
+env:
+  SNOWFLAKE_ENV: dev
+  SNOWFLAKE_NOTEBOOK_PATH: notebooks/example_notebook.ipynb
+  SNOWFLAKE_NOTEBOOK_NAME: example_notebook
+steps:
+
+          # Checkout step is necessary if you want to use a config file from your repo
+        - name: Checkout repo
+          uses: actions/checkout@v4
+          
+          # Write SNOWSQL_PRIVATE_KEY to a file
+        - name: Write private key
+          run: echo "$SNOWSQL_PRIVATE_KEY" > private_key.pem
+
+          # Snowflake CLI installation
+        - uses: Snowflake-Labs/snowflake-cli-action@v1
+          with:
+            cli-version: "latest"
+            default-config-file-path: 'config.toml' # root of the repository
+        
+          # Now lets test the connection with snow command
+        - name: Test connection 
+          shell: bash
+          run: |
+            snow --version
+            snow connection list
+            snow connection test --connection cicd --private-key-path private_key.pem --account $SNOW_SQL_ACCOUNT --user $SNOW_SQL_USER --authenticator SNOWFLAKE_JWT --database REPO_NOTEBOOKS --schema PUBLIC
+
+        # Using the snow CLI to deploy the notebook with: snow notebook create identifier  --notebook-file <path/to/notebook>
+        - name: Deploy notebook
+          shell: bash
+          run: |
+            snow notebook create  ${{ env.SNOWFLAKE_NOTEBOOK_NAME }}  --notebook-file ${{ env.SNOWFLAKE_NOTEBOOK_PATH }}  --connection cicd --private-key-path $GITHUB_WORKSPACE/private_key.pem --account $SNOW_SQL_ACCOUNT --user $SNOW_SQL_USER --authenticator SNOWFLAKE_JWT --database REPO_NOTEBOOKS  --schema PUBLIC
+        
+        # Using the snow CLI to execute the notebook
+        - name: Run notebook
+          shell: bash
+          run: |
+           snow notebook execute  ${{ env.SNOWFLAKE_NOTEBOOK_NAME }}  --notebook-file ${{ env.SNOWFLAKE_NOTEBOOK_PATH }} --connection cicd --private-key-path $GITHUB_WORKSPACE/private_key.pem --account $SNOW_SQL_ACCOUNT --user $SNOW_SQL_USER --authenticator SNOWFLAKE_JWT --database REPO_NOTEBOOKS  --schema PUBLIC
