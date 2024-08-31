@@ -1,21 +1,15 @@
+name: Deploy Notebook to Dev Environment
 # A github action to deploy a notebook to a specific environment
 # uses the template/deploy_notebook_to_env.yml file
-
-name: Deploy Notebook to Dev Environment
-
 on:
   push:
     branches:
-      - dev
-      
+      - dev      
+# This will have a single job that will run the deploy_notebook_to_env.yml file
 jobs:
-  deploy_notebook:
-    name: Deploy Notebook to Dev Environment
-    uses: ./.github/workflows/template/deploy_notebook_to_env.yml
+  deploy:
+    # run the template/deploy_notebook_to_env.yml file
+    uses: temp_deploy_notebook_to_env.yml
+    # pass the environment name as an argument
     with:
-      SNOWFLAKE_ENV: dev
-      SNOWFLAKE_NOTEBOOK_PATH: '@"REPO_NOTEBOOKS"."PUBLIC"."NOTEBOOKS"/branches/dev/Notebooks/DemoCount/Working with Git.ipynb'
-      SNOWFLAKE_NOTEBOOK_NAME: example_notebook_from_cicd
-      SNOWFLAKE_NOTEBOOK_VERSION: 1.0.0
-      SNOWFLAKE_NOTEBOOK_COMMENT: "Deploying example notebook to dev environment"
-      SNOWFLAKE_NOTEBOOK_TAGS: "example, notebook, dev"
+      environment: dev
