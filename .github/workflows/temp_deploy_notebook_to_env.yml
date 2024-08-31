@@ -25,6 +25,24 @@ on:
         required: true
         type: string
         description: 'The name of the notebook to deploy'
+      SNOW_SQL_ACCOUNT:
+        required: true
+        type: string
+        description: 'The Snowflake account name'
+      SNOW_SQL_USER:
+        required: true
+        type: string
+        description: 'The Snowflake user name'
+      PRIVATE_KEY_PASSPHRASE:
+        required: true
+        type: string
+        description: 'The Snowflake private key'
+      PRIVATE_KEY:
+        required: true
+        type: string
+        description: 'The Snowflake private key passphrase'
+  
+
 ##
 
 
@@ -36,6 +54,7 @@ jobs:
       SNOW_SQL_USER: ${{ secrets.SNOW_SQL_USER  }}
       PRIVATE_KEY_PASSPHRASE: ${{ secrets.SNOWSQL_PRIVATE_KEY_PASSPHRASE }}
       SNOWSQL_PRIVATE_KEY: ${{ secrets.SNOW_SQL_PRIVATE_KEY }}
+
       SNOWFLAKE_ENV: ${{ inputs.environment }}
       SNOWFLAKE_NOTEBOOK_PATH: ${{ inputs.notebook_path }}
       SNOWFLAKE_NOTEBOOK_NAME: ${{ inputs.notebook_name }}
