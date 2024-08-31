@@ -10,6 +10,7 @@ on:
       
 jobs:
   deploy_notebook:
+    name: Deploy Notebook to Dev Environment
     uses: ./.github/workflows/template/deploy_notebook_to_env.yml
     with:
       SNOWFLAKE_ENV: dev
