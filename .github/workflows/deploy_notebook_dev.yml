@@ -7,9 +7,9 @@ on:
       - dev      
 # This will have a single job that will run the deploy_notebook_to_env.yml file
 jobs:
-  deploy:
-    # run the template/deploy_notebook_to_env.yml file
-    uses: temp_deploy_notebook_to_env.yml
-    # pass the environment name as an argument
-    with:
-      environment: dev
+    deploy-notebook:
+      uses: ./.github/workflows/temp_deploy_notebook_to_env.yml
+      with:
+        environment: dev
+        notebook_path: '@"REPO_NOTEBOOKS"."PUBLIC"."NOTEBOOKS"/branches/dev/Notebooks/DemoCount/Working with Git.ipynb'
+        notebook_name: dev_from_snowcicd 
