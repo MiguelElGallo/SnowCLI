@@ -75,4 +75,4 @@ jobs:
           - name: Run notebook
             shell: bash
             run: |
-              snow notebook execute  ${{ env.SNOWFLAKE_NOTEBOOK_NAME }}  --notebook-file ${{ env.SNOWFLAKE_NOTEBOOK_PATH }} --connection cicd --private-key-path $GITHUB_WORKSPACE/private_key.pem --account $SNOW_SQL_ACCOUNT --user $SNOW_SQL_USER --authenticator SNOWFLAKE_JWT --database REPO_NOTEBOOKS  --schema PUBLIC
+              snow notebook execute  ${{ env.SNOWFLAKE_NOTEBOOK_NAME }}  --connection cicd --private-key-path $GITHUB_WORKSPACE/private_key.pem --account $SNOW_SQL_ACCOUNT --user $SNOW_SQL_USER --authenticator SNOWFLAKE_JWT --database REPO_NOTEBOOKS  --schema PUBLIC
