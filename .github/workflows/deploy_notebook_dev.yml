@@ -2,10 +2,6 @@ name: Deploy Notebook to Dev Environment
 # A github action to deploy a notebook to a specific environment
 # uses the template/deploy_notebook_to_env.yml file
 
-env:
-  ENVIRONMENT: dev
-  NOTEBOOK_PATH: '@"REPO_NOTEBOOKS"."PUBLIC"."NOTEBOOKS"/branches/dev/Notebooks/DemoCount/Notebook1.ipynb'
-  NOTEBOOK_NAME: notebook_cicd
 on:
   push:
     branches:
@@ -13,19 +9,28 @@ on:
 
 jobs:
   set_env_vars:
-      # Get the values from env: and set them as environment variables  
-      runs-on: ubuntu-latest
-      steps:
-        - run: echo ""
-      outputs:
-        environment: ${{ env.ENVIRONMENT }}
-        notebook_path: ${{ env.NOTEBOOK_PATH }}
-        notebook_name: ${{ env.NOTEBOOK_NAME }}
+    runs-on: ubuntu-latest
+    outputs:
+      environment: ${{ steps.set_env.outputs.environment }}
+      notebook_path: ${{ steps.set_env.outputs.notebook_path }}
+      notebook_name: ${{ steps.set_env.outputs.notebook_name }}
+    steps:
+      - name: Set Environment Variables
+        id: set_env
+        run: |
+          echo "ENVIRONMENT=dev" >> $GITHUB_ENV
+          echo "NOTEBOOK_PATH=@\"REPO_NOTEBOOKS\".\"PUBLIC\".\"NOTEBOOKS\"/branches/dev/Notebooks/DemoCount/Notebook1.ipynb" >> $GITHUB_ENV
+          echo "NOTEBOOK_NAME=notebook_cicd" >> $GITHUB_ENV
+        shell: bash
 
-  deploy-notebook:
-      uses: ./.github/workflows/temp_deploy_notebook_to_env.yml
-      with:
-        environment:   ${{ needs.set_env_vars.outputs.environment }}
-        notebook_path: ${{ needs.set_env_vars.outputs.notebook_path }}
-        notebook_name: ${{ needs.set_env_vars.outputs.notebook_name }}
-      secrets: inherit
+  deploy:
+    needs: set_env_vars
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy Notebook to Dev Environment
+        uses: ./.github/workflows/temp_deploy_notebook_to_env.yml
+        with:
+          environment: ${{ needs.set_env_vars.outputs.environment }}
+          notebook_path: ${{ needs.set_env_vars.outputs.notebook_path }}
+          notebook_name: ${{ needs.set_env_vars.outputs.notebook_name }}
+          secrets: inherit
