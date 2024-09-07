@@ -12,7 +12,7 @@ on:
       - dev      
 
 jobs:
-   set_env_vars:
+  set_env_vars:
       # Get the values from env: and set them as environment variables  
       runs-on: ubuntu-latest
       steps:
@@ -28,7 +28,8 @@ jobs:
           run: echo $NOTEBOOK_PATH
         - name: Show Environment Variables
           run: echo $NOTEBOOK_NAME
-    deploy-notebook:      # This will have a s  deploy-notebook:    uses: ./.github/workflows/temp_deploy_notebook_to_env.yml:    with:      environment: dev      notebook_path: '@"REPO_NOTEBOOKS"."PUBLIC"."NOTEBOOKS"/branches/dev/Notebooks/DemoCount/Notebook1.ipynb'      notebook_name: dev_from_snowcicd     secrets: inherit
+
+  deploy-notebook:
       uses: ./.github/workflows/temp_deploy_notebook_to_env.yml
       with:
         environment: $ENVIRONMENT
