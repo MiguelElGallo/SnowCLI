@@ -1,36 +1,16 @@
 name: Deploy Notebook to Dev Environment
 # A github action to deploy a notebook to a specific environment
 # uses the template/deploy_notebook_to_env.yml file
-
 on:
   push:
     branches:
       - dev      
-
+# This will have a single job that will run the deploy_notebook_to_env.yml file
 jobs:
-  set_env_vars:
-    runs-on: ubuntu-latest
-    outputs:
-      environment: ${{ steps.set_env.outputs.environment }}
-      notebook_path: ${{ steps.set_env.outputs.notebook_path }}
-      notebook_name: ${{ steps.set_env.outputs.notebook_name }}
-    steps:
-      - name: Set Environment Variables
-        id: set_env
-        run: |
-          echo "ENVIRONMENT=dev" >> $GITHUB_ENV
-          echo "NOTEBOOK_PATH=@\"REPO_NOTEBOOKS\".\"PUBLIC\".\"NOTEBOOKS\"/branches/dev/Notebooks/DemoCount/Notebook1.ipynb" >> $GITHUB_ENV
-          echo "NOTEBOOK_NAME=notebook_cicd" >> $GITHUB_ENV
-        shell: bash
-
-  deploy:
-    needs: set_env_vars
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy Notebook to Dev Environment
-        uses: ./.github/workflows/temp_deploy_notebook_to_env.yml
-        with:
-          environment: ${{ needs.set_env_vars.outputs.environment }}
-          notebook_path: ${{ needs.set_env_vars.outputs.notebook_path }}
-          notebook_name: ${{ needs.set_env_vars.outputs.notebook_name }}
-          secrets: inherit
+    deploy-notebook:
+      uses: ./.github/workflows/temp_deploy_notebook_to_env.yml
+      with:
+        environment: DEV
+        notebook_path: '@"REPO_NOTEBOOKS"."PUBLIC"."NOTEBOOKS"/branches/dev/Notebooks/DemoCount/Notebook1.ipynb'
+        notebook_name: dev_from_snowcicd 
+      secrets: inherit
