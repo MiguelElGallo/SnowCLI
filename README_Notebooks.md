@@ -25,7 +25,7 @@ Create a database called REPO_NOTEBOOKS, with schemas DEV an PROD
 
 ## Results
 
-[Action Pipeline](.github/workflows/deploy_notebook_dev.yml) will be triggered whenever your commit to merge. Merge any changes and you will see the pipe running.
+[Action Pipeline](.github/workflows/deploy_notebook_dev.yml) will be triggered whenever your commit to to DEV or merge any changes.
 
 ## Reasoning
 
