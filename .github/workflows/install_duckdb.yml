@@ -49,4 +49,4 @@ jobs:
           - name: Install duckdb 
             shell: bash
             run: |
-                snow snowpark package upload -f duckdb.zip -s PACKAGES
+                snow snowpark package upload -f duckdb.zip -s PACKAGES --connection cicd --private-key-path private_key.pem --account $SNOW_SQL_ACCOUNT --user $SNOW_SQL_USER --authenticator SNOWFLAKE_JWT --database REPO_NOTEBOOKS --schema DEV
