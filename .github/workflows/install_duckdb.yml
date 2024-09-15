@@ -1,6 +1,9 @@
 name: Install DuckDB
 on:
     workflow_dispatch:
+    push:
+        branches:
+            - dev
 jobs:
   version:
     name: "Snow CLI and Notebook Deployment"
