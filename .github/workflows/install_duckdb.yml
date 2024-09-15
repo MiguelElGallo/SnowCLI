@@ -1,0 +1,44 @@
+name: Install DuckDB
+on:
+    workflow_dispatch:
+jobs:
+  version:
+    name: "Snow CLI and Notebook Deployment"
+    runs-on: ubuntu-latest
+
+    env:
+      SNOW_SQL_ACCOUNT: ${{ secrets.SNOW_SQL_ACCOUNT}}
+      SNOW_SQL_USER: ${{ secrets.SNOW_SQL_USER  }}
+      PRIVATE_KEY_PASSPHRASE: ${{ secrets.SNOWSQL_PRIVATE_KEY_PASSPHRASE }}
+      SNOWSQL_PRIVATE_KEY: ${{ secrets.SNOW_SQL_PRIVATE_KEY }}
+
+
+    steps:
+          # Checkout step is necessary if you want to use a config file from your repo
+          - name: Checkout repo
+            uses: actions/checkout@v4
+            
+            # Write SNOWSQL_PRIVATE_KEY to a file
+          - name: Write private key
+            run: echo "$SNOWSQL_PRIVATE_KEY" > private_key.pem
+
+            # Snowflake CLI installation
+          - uses: Snowflake-Labs/snowflake-cli-action@v1
+            with:
+              cli-version: "latest"
+              default-config-file-path: 'config.toml' # root of the repository
+          
+            # Now lets test the connection with snow command
+          - name: Test connection 
+            shell: bash
+            run: |
+              snow --version
+              snow connection list
+              snow connection test --connection cicd --private-key-path private_key.pem --account $SNOW_SQL_ACCOUNT --user $SNOW_SQL_USER --authenticator SNOWFLAKE_JWT --database REPO_NOTEBOOKS --schema PUBLIC
+        
+        # Now lets test the connection with snow command
+          - name: Install duckdb 
+            shell: bash
+            run: |
+                snow snowpark package create duckdb -connection cicd --private-key-path private_key.pem --account $SNOW_SQL_ACCOUNT --user $SNOW_SQL_USER --authenticator SNOWFLAKE_JWT --database REPO_NOTEBOOKS --schema PUBLIC
+            
