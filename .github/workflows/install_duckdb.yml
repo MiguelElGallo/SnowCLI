@@ -44,4 +44,9 @@ jobs:
             shell: bash
             run: |
                 snow snowpark package create duckdb --allow-shared-libraries
-            
+
+        # Upload package to snowflake
+          - name: Install duckdb 
+            shell: bash
+            run: |
+                snow snowpark package upload -f duckdb.zip -s PACKAGES
