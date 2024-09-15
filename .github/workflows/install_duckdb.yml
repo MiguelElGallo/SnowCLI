@@ -43,5 +43,5 @@ jobs:
           - name: Install duckdb 
             shell: bash
             run: |
-                snow snowpark package create duckdb -connection cicd --private-key-path private_key.pem --account $SNOW_SQL_ACCOUNT --user $SNOW_SQL_USER --authenticator SNOWFLAKE_JWT --database REPO_NOTEBOOKS --schema PUBLIC
+                snow snowpark package create duckdb
             
