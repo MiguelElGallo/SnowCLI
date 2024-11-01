@@ -6,7 +6,7 @@ on:
 
 jobs:
   version:
-     name: "Check Snowflake CLI version"
+     name: "Deploy Streamlit App from Github Actions using SnowCLI GA"
      runs-on: ubuntu-latest
      env:
         SNOW_SQL_ACCOUNT: ${{ secrets.SNOW_SQL_ACCOUNT}}
